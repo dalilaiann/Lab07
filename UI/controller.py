@@ -1,7 +1,7 @@
 import flet as ft
 
 from UI.view import View
-from model.model import Model
+from model.modello import Model
 
 
 class Controller:
@@ -14,8 +14,21 @@ class Controller:
         self._mese = 0
 
     def handle_umidita_media(self, e):
-        pass
+        self._view.lst_result.controls.clear()
+        res=self._model.get_Umidita_Media(self._mese)
 
+        if self._mese==0:
+            self._view.create_alert("Selezionare un mese!")
+            return
+
+        if res==[]:
+            self._view.lst_result.controls.append(ft.Text("Non ci sono dati disponibili per il mese indicato"))
+            self._view.update_page()
+        else:
+            self._view.lst_result.controls.append(ft.Text("L'umidità media nel mese selezionato è: "))
+            for r in res:
+                self._view.lst_result.controls.append(ft.Text(r))
+            self._view.update_page()
 
 
     def handle_sequenza(self, e):
